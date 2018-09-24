@@ -10,18 +10,17 @@ SHELL ["/bin/bash", "-c"]
 # app version and debian package version targeted
 # from MariaDB repository
 ARG APP_VERSION=10.3
+ARG APP_KEY=0xF1656F24C74CD1D8
 ARG APP_RELEASE=10.3.9
 ARG APP_PACKAGE=1:10.3.9+maria~stretch
-ARG APP_KEY=0xF1656F24C74CD1D8
+ARG APP_REPO=http://mirrors.up.pt/pub/mariadb/repo
 
 # Debian setup for MariaDB repository as per : https://downloads.mariadb.org/mariadb/repositories
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 ${APP_KEY} \
-	&& echo "deb [arch=amd64,i386,ppc64el] http://ftp.hosteurope.de/pub/mariadb/repo/${APP_VERSION}/debian ${BASE_NAME} main" > /etc/apt/sources.list.d/mariadb.list \
+	&& echo "deb [arch=amd64] ${APP-REPO}/${APP_VERSION}/debian ${BASE_NAME} main" > /etc/apt/sources.list.d/mariadb.list \
 	&& echo -e "Package: *\nPin: release o=MariaDB'\nPin-Priority: 999" > /etc/apt/preferences.d/mariadb
-
-RUN cat /etc/apt/sources.list.d/mariadb.list
 
 # setup MariaDB environment
 # port (note that config files port definitions make precedence over this, so if different expose manually correct port)
