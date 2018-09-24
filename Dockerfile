@@ -38,8 +38,8 @@ COPY etc/mysql/extra/my.cnf ${MYSQL_EXTRA}/my.cnf
 # install MariaDB Debian package
 # cannot skip initial database creation, use dummy debconf
 # initial database creation done in entrypoint if folder missing to ensure bind mounts utlisation
-RUN debconf-set-selections <<< "mariadb-server-${APP_VERSION} mysql-server/root_password password dummy" \
-	&& debconf-set-selections <<< "mariadb-server-${APP_VERSION} mysql-server/root_password_again password dummy" \
+RUN debconf-set-selections="mariadb-server-${APP_VERSION} mysql-server/root_password password dummy" \
+	&& debconf-set-selections="mariadb-server-${APP_VERSION} mysql-server/root_password_again password dummy" \
 	&& apt-get update && apt-get install -y --no-install-recommends mariadb-server=1:${APP_RELEASE}+maria~${BASE_NAME} \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf ${MYSQL_DATABASE} \
