@@ -1,8 +1,8 @@
 # base version targeted from Docker Hub
 ARG BASE_VERSION=9.5-slim
-ARG BASE_NAME=stretch
 # Debian base
 FROM debian:${BASE_VERSION}
+ARG BASE_NAME=stretch
 LABEL maintainer="admin@qi2.info"
 
 USER root:root
